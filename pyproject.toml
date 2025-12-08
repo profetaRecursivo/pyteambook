@@ -1,5 +1,5 @@
 [build-system]
-requires = ["setuptools", "wheel"]
+requires = ["setuptools>=45", "wheel", "setuptools_scm[toml]>=6.2"]
 build-backend = "setuptools.build_meta"
 
 [project]
@@ -7,18 +7,36 @@ name = "pyteambook"
 version = "0.0.1"
 description = "CLI tool to generate ICPC Team Reference Documents"
 authors = [{name = "Jaime Sebastian Chavarria Fuertes", email = "jschavarria77@gmail.com"}]
+license = {text = "MIT"}
+keywords = ["icpc", "competitive-programming", "teambook", "latex", "reference-document"]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Developers",
+    "Topic :: Software Development :: Code Generators",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+]
 dependencies = [
-    "typer[all]",
-    "jinja2",
-    "pydantic"
+    "click>=8.0.0",
+    "jinja2>=3.0.0",
+    "pygments>=2.0.0"
 ]
 requires-python = ">=3.9"
 
+[project.urls]
+Homepage = "https://github.com/profetaRecursivo/pyteambook"
+Repository = "https://github.com/profetaRecursivo/pyteambook"
+Issues = "https://github.com/profetaRecursivo/pyteambook/issues"
+
 [project.scripts]
-pyteambook = "src.main:app"
+pyteambook = "src.main:cli"
 
 [tool.setuptools]
-packages = ["src", "src.FileServices", "src.Models", "src.Document"]
+packages = ["src", "src.FileServices", "src.Models", "src.Document", "src.templates"]
 
 [tool.setuptools.package-data]
-"src.templates" = ["*.j2"]
+src = ["templates/*.tex", "templates/*.j2"]

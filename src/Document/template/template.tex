@@ -1,0 +1,94 @@
+\documentclass[8pt, a4paper, twocolumn, landscape=false]{extarticle}
+
+\usepackage[left=0.4cm, right=0.4cm, top=1.5cm, bottom=0.5cm, headsep=0.2cm]{geometry}
+\usepackage{fancyhdr}
+\usepackage{titlesec}
+\usepackage{tocloft}
+\usepackage{multicol}
+\usepackage{color}
+\usepackage{xcolor}
+
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage{courier}
+
+\usepackage{minted}
+
+\setminted{
+    fontsize=\fontsize{7pt}{7.5pt}\selectfont,
+    breaklines=true,
+    breakanywhere=true,
+    mathescape=true,
+    linenos=true,
+    numbersep=2pt,
+    frame=bottomline,
+    framesep=1mm,
+    tabsize=2,
+    baselinestretch=0.9
+}
+
+\pagestyle{fancy}
+\fancyhf{} 
+\fancyhead[L]{\textbf{ {{ team_name }} } -- {{ university }}}
+\fancyhead[R]{\thepage}
+\renewcommand{\headrulewidth}{0.4pt}
+
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{0pt}
+\setlength{\columnsep}{0.5cm}   
+\setlength{\columnseprule}{0.1pt} 
+
+\titlespacing*{\section}{0pt}{2pt}{1pt}
+\titlespacing*{\subsection}{0pt}{1pt}{1pt}
+\titleformat{\section}{\large\bfseries}{\thesection}{1em}{}
+\titleformat{\subsection}{\normalsize\bfseries}{\thesubsection}{1em}{}
+
+\renewcommand{\cftsecleader}{\cftdotfill{\cftdotsep}}
+\setlength{\cftbeforesecskip}{0pt}
+\setlength{\cftbeforesubsecskip}{0pt}
+
+\begin{document}
+
+{
+    \footnotesize
+    \tableofcontents
+}
+\vspace{0.3cm}
+\hrule
+\vspace{0.3cm}
+
+
+{% for section_name, subsections in hierarchy %}
+    \section{ {{ section_name }} }
+    
+    {% for subsection_name, files in subsections %}
+        \subsection{ {{ subsection_name }} }
+        
+        {% for file in files %}
+            % Título del archivo y detalles
+            \noindent
+            \textbf{\small {{ file.title }}} \textit{\scriptsize ({{ file.filename }})}
+            
+            {% set lexer = 'text' %}
+            {% if file.extension in ['cpp', 'cc', 'cxx', 'h', 'hpp'] %}
+                {% set lexer = 'cpp' %}
+            {% elif file.extension in ['py', 'py3'] %}
+                {% set lexer = 'python' %}
+            {% elif file.extension in ['java'] %}
+                {% set lexer = 'java' %}
+            {% elif file.extension in ['sh', 'bash'] %}
+                {% set lexer = 'bash' %}
+            {% endif %}
+
+            \begin{minted}{ {{ lexer }} }
+{{ open(file.path).read().strip() }}
+            \end{minted}
+            
+            \vspace{-0.2cm}
+        {% endfor %}
+        
+    {% endfor %}
+{% endfor %}
+
+\end{document}

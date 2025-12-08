@@ -1,0 +1,165 @@
+
+\documentclass[8pt, {{ paper }}paper, {{ orientation }}]{extarticle}
+
+{% if orientation == 'landscape' %}
+\usepackage[left=0.6cm, right=0.6cm, top=1.5cm, bottom=1.2cm, {{ orientation }}]{geometry}
+{% else %}
+\usepackage[left=1.5cm, right=1.5cm, top=2cm, bottom=2cm]{geometry}
+{% endif %}
+\usepackage{fancyhdr}
+\usepackage{titlesec}
+\usepackage{tocloft}
+\usepackage{multicol}
+\usepackage{xcolor}
+
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{graphicx}
+
+\usepackage{minted}
+\usemintedstyle{emacs}
+
+{% if columns == 1 %}
+\setminted{
+    fontsize=\large,
+    breaklines=true,
+    breakanywhere=false,
+    mathescape=false,
+    texcl=false,
+    linenos=true,
+    numbersep=5pt,
+    frame=lines,
+    framesep=2mm,
+    tabsize=2,
+    baselinestretch=1.1,
+    xleftmargin=0pt,
+    autogobble=true
+}
+{% else %}
+\setminted{
+    fontsize=\normalsize,
+    breaklines=true,
+    breakanywhere=false,
+    mathescape=false,
+    texcl=false,
+    linenos=true,
+    numbersep=4pt,
+    frame=lines,
+    framesep=1mm,
+    tabsize=2,
+    baselinestretch=1.0,
+    xleftmargin=0pt,
+    autogobble=true
+}
+{% endif %}
+
+\definecolor{sectioncolor}{RGB}{25, 25, 112}
+\definecolor{subsectioncolor}{RGB}{70, 70, 70}
+\definecolor{titlecolor}{RGB}{0, 51, 102}
+
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{\footnotesize\textbf{ {{ team_name }} }}
+\fancyhead[C]{\footnotesize {{ university }}}
+\fancyhead[R]{\footnotesize Pág. \thepage}
+\renewcommand{\headrulewidth}{0.5pt}
+
+\fancypagestyle{plain}{
+    \fancyhf{}
+    \fancyhead[L]{\footnotesize\textbf{ {{ team_name }} }}
+    \fancyhead[C]{\footnotesize {{ university }}}
+    \fancyhead[R]{\footnotesize Pág. \thepage}
+    \renewcommand{\headrulewidth}{0.5pt}
+}
+
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{3pt}
+\setlength{\columnsep}{8mm}
+\setlength{\columnseprule}{0.4pt}
+
+\titleformat{\section}
+    {\color{sectioncolor}\large\bfseries}
+    {\thesection}{0.5em}{}
+\titlespacing*{\section}{0pt}{6pt plus 2pt minus 2pt}{3pt plus 1pt minus 1pt}
+
+\titleformat{\subsection}
+    {\color{subsectioncolor}\normalsize\bfseries}
+    {\thesubsection}{0.5em}{}
+\titlespacing*{\subsection}{0pt}{4pt plus 1pt minus 1pt}{2pt plus 1pt minus 1pt}
+
+\renewcommand{\cftsecleader}{\cftdotfill{\cftdotsep}}
+\setlength{\cftbeforesecskip}{2pt}
+\setlength{\cftbeforesubsecskip}{0pt}
+
+\makeatletter
+\renewcommand{\@seccntformat}[1]{\csname the#1\endcsname.\quad}
+\makeatother
+
+\begin{document}
+
+\thispagestyle{empty}
+\begin{center}
+    \vspace*{3cm}
+    {\Huge\bfseries\color{titlecolor} Team Reference Document\par}
+    \vspace{1.5cm}
+    {\Large ICPC Programming Competition\par}
+    \vspace{2cm}
+    
+    {% if cover_image %}
+    \includegraphics[width=0.5\textwidth,keepaspectratio]{ {{- cover_image -}} }
+    \vspace{2cm}
+    {% else %}
+    \vspace{2cm}
+    {% endif %}
+    
+    {\LARGE\color{sectioncolor}\textbf{ {{ team_name }} }\par}
+    \vspace{0.8cm}
+    {\Large {{ university }}\par}
+    
+    \vfill
+    
+    {\large\today\par}
+\end{center}
+
+\clearpage
+
+\thispagestyle{plain}
+\section*{Tabla de Contenidos}
+\begin{multicols}{2}
+\footnotesize
+\tableofcontents
+\end{multicols}
+
+\clearpage
+
+{% if columns > 1 %}
+\begin{multicols}{ {{ columns }} }
+\raggedcolumns
+{% endif %}
+
+
+{% for section_name, subsections in hierarchy %}
+    \section{ {{ section_name }} }
+    
+    {% for subsection_name, files in subsections %}
+        \subsection{ {{ subsection_name }} }
+        
+        {% for file in files %}
+            \addcontentsline{toc}{subsubsection}{ {{ file.title }} }
+            \vspace{1mm}
+            \noindent
+            {\color{subsectioncolor}\textbf{ {{ file.title }} }} 
+            {\tiny\textit{({{ file.filename }})}}
+            
+            \begin{minted}[tabsize=4,showtabs=false]{{'{'}}{{ file.lexer }}{{'}'}}
+{{ open(file.path, 'r', encoding='utf-8', errors='replace').read().expandtabs(4).strip() }}
+            \end{minted}
+        {% endfor %}
+        
+    {% endfor %}
+{% endfor %}
+
+{% if columns > 1 %}
+\end{multicols}
+{% endif %}
+\end{document}

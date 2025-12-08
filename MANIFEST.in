@@ -1,0 +1,6 @@
+include README.md
+include pyproject.toml
+recursive-include src/templates *.tex
+recursive-include src/templates *.j2
+global-exclude __pycache__
+global-exclude *.py[co]
