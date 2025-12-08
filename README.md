@@ -69,7 +69,7 @@ xelatex -shell-escape teambook.tex
 
 **Importante:** A veces puede ser necesario recompilar el .tex mas de una vez, ya que minted necesita archivos temporales que surgen despues de la primera compilacion.
 
-## 📁 Estructura de Carpetas
+## Estructura de Carpetas
 
 Organiza tus códigos en la siguiente estructura:
 
