@@ -2,9 +2,9 @@
 \documentclass[8pt, {{ paper }}paper, {{ orientation }}]{extarticle}
 
 {% if orientation == 'landscape' %}
-\usepackage[left=0.6cm, right=0.6cm, top=1.5cm, bottom=1.2cm, {{ orientation }}]{geometry}
+\usepackage[left=1.5cm, right=1cm, top=2cm, bottom=1.5cm, headheight=15pt, {{ orientation }}]{geometry}
 {% else %}
-\usepackage[left=1.5cm, right=1.5cm, top=2cm, bottom=2cm]{geometry}
+\usepackage[left=1.5cm, right=1.5cm, top=2cm, bottom=2cm, headheight=15pt]{geometry}
 {% endif %}
 \usepackage{fancyhdr}
 \usepackage{titlesec}
@@ -60,16 +60,20 @@
 \pagestyle{fancy}
 \fancyhf{}
 \fancyhead[L]{\footnotesize\textbf{ {{ team_name }} }}
-\fancyhead[C]{\footnotesize {{ university }}}
-\fancyhead[R]{\footnotesize Pág. \thepage}
+\fancyhead[C]{\footnotesize \leftmark}
+\fancyhead[R]{\footnotesize \thepage}
+\fancyfoot[C]{\footnotesize {{ university }}}
 \renewcommand{\headrulewidth}{0.5pt}
+\renewcommand{\footrulewidth}{0.5pt}
+\renewcommand{\sectionmark}[1]{\markboth{ {{ '#' }}1 }{}}
 
 \fancypagestyle{plain}{
     \fancyhf{}
     \fancyhead[L]{\footnotesize\textbf{ {{ team_name }} }}
-    \fancyhead[C]{\footnotesize {{ university }}}
-    \fancyhead[R]{\footnotesize Pág. \thepage}
+    \fancyhead[R]{\footnotesize \thepage}
+    \fancyfoot[C]{\footnotesize {{ university }}}
     \renewcommand{\headrulewidth}{0.5pt}
+    \renewcommand{\footrulewidth}{0.5pt}
 }
 
 \setlength{\parindent}{0pt}
