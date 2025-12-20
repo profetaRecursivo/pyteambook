@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "pyteambook"
-version = "0.0.1"
+version = "0.0.2"
 description = "CLI tool to generate ICPC Team Reference Documents"
 authors = [{name = "Jaime Sebastian Chavarria Fuertes", email = "jschavarria77@gmail.com"}]
 license = {text = "MIT"}

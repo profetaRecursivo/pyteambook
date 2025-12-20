@@ -22,8 +22,10 @@ pipx install git+https://github.com/profetaRecursivo/pyteambook.git
 ```bash
 git clone https://github.com/profetaRecursivo/pyteambook.git
 cd pyteambook
+source .venv/bin/activate
 pipx install -e .
 ```
+De momento es necesario estar en el entorno virtual para usar pyteambook como comando, en futuras versiones se agregara una instalacion limpia
 
 ## Uso
 
